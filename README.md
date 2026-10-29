@@ -1,79 +1,117 @@
-# APEX-UI
+# Higgsfield AI Skills
 
-An animated **autonomous-agent orb + reasoning-graph** interface — the front-end of
-[Apex](https://reznikov-engineering.com/apex), released open source.
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![Version](https://img.shields.io/badge/version-0.14.0-green.svg)](./VERSION)
+[![Skills](https://img.shields.io/badge/skills-9-blueviolet.svg)](#skills)
+[![Discord](https://img.shields.io/badge/discord-join-5865F2?logo=discord&logoColor=white)](https://discord.com/invite/higgsfield)
 
-Tap the orb to cycle its state (idle → thinking → speaking); the reasoning web reacts,
-agent nodes orbit the core, and clicking any node opens an overview card. The orb ring,
-agent graph and status bar are **hand-written SVG / CSS**; the cyan particle core is a
-small `react-three-fiber` scene (skipped under `prefers-reduced-motion`); and the WebGL
-shader backdrop + the overview lamp panel are **MIT community components from
-[21st.dev](https://21st.dev/community/components)** (see [CREDITS](./CREDITS.md)).
+AI agent skills for image/video generation and complete visual brand systems via [Higgsfield AI](https://higgsfield.ai), including Marketing Studio and Virality Predictor video scoring. Works with Claude Code, Cursor, Codex, and other AI coding agents that load Markdown-based skills.
 
-> ⚠ **The Apex Humanoid is NOT part of this repo.** The particle-figure face of Apex
-> (assembly, states, voice-driven energy) lives in a separate repository with its own
-> access - what you see here is the orb + reasoning-graph interface only.
+## Install
 
-> Built with Next.js 15 + React 19. Runtime deps: `lucide-react` (icons) and
-> `three` / `@react-three/fiber` / `@react-three/postprocessing` (the particle core) —
-> all MIT-licensed.
+Pick one. Each method handles the Higgsfield CLI install and auth as part of skill setup.
 
-## Live demo
-
-**[apex-ui-xi.vercel.app](https://apex-ui-xi.vercel.app)** - the same code, running.
-Tap the orb.
-
-## Run it yourself
+### `npx skills` — recommended, cross-agent
 
 ```bash
-npm install
-npm run dev
-# open http://localhost:3000
+npx skills add higgsfield-ai/skills
 ```
 
-Then `npm run build` for a production build, or deploy to Vercel in one click.
+### `gh skill install`
 
-## What's inside
+GitHub CLI v2.90+:
 
-| Piece | What it does |
-|-------|--------------|
-| `ApexOrb` | The golden ring frame, waveform and orbit dots (pure SVG) |
-| `ApexCore3D` | The cyan particle core (`react-three-fiber` + bloom) |
-| `ApexHeroOrb` | Stacks the SVG ring + the particle core, scaled to fit |
-| `ReasoningWeb` | The agent constellation — circuit traces, orbit rings, 18-node roster |
-| `OrbStatusBar` | The equalizer + STANDBY cluster along the bottom |
-| `ShaderBackground` | Animated WebGL "plasma waves" backdrop (MIT component from 21st.dev — see CREDITS) |
-| `ApexWorld` | Composes the above; owns the tap-state cycle and the agent overview cards |
-| `ApexOverviewPanel` | Top-left HUD: live clock, weather, and social links |
-| `app/api/weather` | Keyless [open-meteo](https://open-meteo.com) proxy for the panel's weather |
+```bash
+gh skill install higgsfield-ai/skills
+```
 
-## Customise
+### Claude Code marketplace
 
-- **Social links** → edit `TILES` in `components/ApexOverviewPanel.tsx`.
-- **Weather** → auto-detects the **visitor's** city on Vercel (geo headers); edit `FALLBACK` in `app/api/weather/route.ts` to change the off-Vercel / localhost default.
-- **Agents & copy** → the `ROSTER` and `INFO` maps in `components/ApexWorld.tsx`.
-- **Backdrop** → the shader in `components/ShaderBackground.jsx`; its opacity/tint are set where `<ShaderBackground>` is used in `ApexWorld.tsx`.
+Inside Claude Code:
 
-## Accessibility
+```
+/plugin marketplace add higgsfield-ai/skills
+/plugin install higgsfield@higgsfield
+```
 
-The decorative SVG graph is mirrored by a real, keyboard-navigable agent list
-(`.visually-hidden`), the orb and every control are focusable, and the whole thing
-respects `prefers-reduced-motion`.
+### Setup script
 
-## Not included (on purpose)
+Universal fallback:
 
-This repo is the **UI only**. The production Apex page also has a spoken-voice layer and a
-"story" narrative — those are personal recordings and private copy, so they are intentionally
-left out. The orb stays fully interactive without them.
+```bash
+git clone --depth 1 https://github.com/higgsfield-ai/skills.git
+cd skills
+./setup
+```
+
+More options in [INSTALL.md](./INSTALL.md). Agent-driven install (paste into your agent): [INSTALL_FOR_AGENTS.md](./INSTALL_FOR_AGENTS.md).
+
+## Skills
+
+| Skill | Invoke (Claude Code) | Description |
+|---|---|---|
+| [`higgsfield-generate`](./higgsfield-generate) | `/higgsfield:higgsfield-generate` | Image, video, 3D, and audio generation across 30+ models (Nano Banana 2, Soul V2, Veo 3.1, Kling 3.0, Seedance 2.5, Seed Audio 1.0, Flux 2, GPT Image 2.5, …), plus Marketing Studio for branded ads with avatars/products/hooks/settings and Virality Predictor scoring for finished videos. |
+| [`higgsfield-soul-id`](./higgsfield-soul-id) | `/higgsfield:higgsfield-soul-id` | Train a Soul Character — a reusable, face-faithful identity model. Returns a `reference_id` consumable by Soul-aware generation. |
+| [`higgsfield-product-photoshoot`](./higgsfield-product-photoshoot) | `/higgsfield:higgsfield-product-photoshoot` | Brand-quality product imagery with mode-specific prompt enhancement. 10 modes (studio, lifestyle, Pinterest, hero banner, ad packs, virtual try-on, …) backed by `gpt_image_2`. |
+| [`higgsfield-brandkit`](./higgsfield-brandkit) | `/higgsfield:higgsfield-brandkit` | Create or extend a complete visual identity: palettes, editable SVG logo marks, typography, mockups, social graphics, packaging, signage, merchandise, decks, and canonical PPTX/PDF brandbooks. |
+| [`higgsfield-marketplace-cards`](./higgsfield-marketplace-cards) | `/higgsfield:higgsfield-marketplace-cards` | Marketplace product cards: compliant main image, secondary product images, and A+ style modules via backend prompt enhancement. |
+| [`higgsfield-websites`](./higgsfield-websites) | `/higgsfield:higgsfield-websites` | Build, edit, and deploy full-stack websites — React 19 + TanStack Start, server-rendered as one Cloudflare Worker with D1 / R2 / KV / Durable Objects / Containers. Create → get git repo access → edit locally → push → deploy preview/production, all via `higgsfield website …`. |
+| [`higgsfield-faceless-video`](./higgsfield-faceless-video) | `/higgsfield:higgsfield-faceless-video` | Create faceless explainers, stories, documentaries, and children's music videos. |
+| [`higgsfield-video-explainer`](./higgsfield-video-explainer) | `/higgsfield:higgsfield-video-explainer` | Compatibility entry for faceless explainers. |
+| [`higgsfield-youtube-thumbnail`](./higgsfield-youtube-thumbnail) | `/higgsfield:higgsfield-youtube-thumbnail` | Create truthful, high-impact YouTube thumbnails and vertical video covers with identity-preserving references, controlled variants, focused edits, and optional text-overlay guidance. |
+
+The skills chain: train Soul → use the reference id in `generate` (including Marketing Studio jobs). `brandkit` chains Recraft, Seedream, GPT Image, and deterministic local tooling into one approval-aware identity system. `product-photoshoot` and `marketplace-cards` are self-contained — backend enhances prompts before submitting image jobs. `youtube-thumbnail` can follow any video workflow once its truthful topic and visual direction are known. `websites` chains with `generate` to embed bespoke hero images, video loops, and OG assets in the site.
+
+### Modes
+
+**`higgsfield-product-photoshoot`** — 10 modes for brand visuals:
+
+| Mode | What it's for |
+|---|---|
+| `product_shot` | Product on neutral / studio / catalog background |
+| `lifestyle_scene` | Product in a real environment — hands, action, atmosphere |
+| `closeup_product_with_person` | Tight crop with hands or partial face — beauty, demonstrating |
+| `moodboard_pin` | Vertical 2:3 Pinterest-native pin, moodboard feel |
+| `hero_banner` | Wide-format website / email / campaign header |
+| `social_carousel` | 3–10 connected slides for IG / LinkedIn / Facebook |
+| `ad_creative_pack` | Coordinated pack of static ad variants for Meta / TikTok / Pinterest / Google |
+| `virtual_model_tryout` | Product worn or used by an AI-rendered model |
+| `conceptual_product` | Surreal / CGI-style / levitating / splash / sculptural product |
+| `restyle` | Transform an existing image's aesthetic, mood, or seasonal context |
+
+**`higgsfield-generate` Marketing Studio** — 9 modes for branded ad video:
+
+| Mode | What it's for |
+|---|---|
+| `ugc` | Default. Casual, organic-feel content from a presenter |
+| `ugc_how_to` | Tutorial / explainer |
+| `ugc_unboxing` | Unboxing reveal |
+| `product_showcase` | Clean product highlight, polished |
+| `product_review` | Presenter giving an opinion |
+| `tv_spot` | Broadcast-style commercial |
+| `wild_card` | Experimental, model picks the vibe |
+| `ugc_virtual_try_on` | Trying on clothing — UGC vibe |
+| `virtual_try_on` | Trying on clothing — polished, model-driven |
+
+## Quick Reference
+
+| What you want | Skill | Note |
+|---|---|---|
+| Generate any image / video from a prompt | `higgsfield-generate` | Prefers `gpt_image_2_5` / `nano_banana_flash` for images and SOTA `seedance_2_5` for video by default |
+| Generate audio from a prompt | `higgsfield-generate` | Prefers `seed_audio` by default |
+| Image with my own face | `higgsfield-soul-id` then `higgsfield-generate` | One-time training, then `--soul-id` |
+| Branded product photo (studio / lifestyle / Pinterest / hero / ad pack) | `higgsfield-product-photoshoot` | Mode-specific prompt enhancer + `gpt_image_2` |
+| Create or extend a logo, visual identity, brand asset system, or Brandbook | `higgsfield-brandkit` | Recraft SVG marks + approved palette/type + local editable exports and dependency-aware revisions |
+| Marketplace product cards / A+ style content | `higgsfield-marketplace-cards` | Main image, secondary images, and A+ style modules with hidden marketplace prompt templates |
+| Branded ad video / UGC / unboxing / TV spot | `higgsfield-generate` | Marketing Studio mode with avatars + products + optional hooks/settings |
+| Analyze a video's hook / attention / virality potential | `higgsfield-generate` | Uses Virality Predictor (`brain_activity`) with `--video`; returns score metrics plus an Open report link |
+| Train a custom face identity | `higgsfield-soul-id` | 5–20 photos, returns `reference_id` |
+| Image-to-video animation | `higgsfield-generate` | Prefer `seedance_2_5` with `--mode omni_reference --start-image`; `kling3_0_turbo` when the user asks for cheaper |
+| Build / edit / deploy a website, web app, landing page, or dashboard | `higgsfield-websites` | Full-stack React 19 + TanStack Start on Cloudflare; `higgsfield website create/repo-access/deploy` |
+| Create a narrated explainer from a topic or document | `higgsfield-faceless-video` | Generates scenes and narration, then assembles a finished video locally |
+| Create a YouTube thumbnail or Shorts/Instagram video cover | `higgsfield-youtube-thumbnail` | Nano Banana Pro 4K main render, optional face/logo references, controlled variants, and Seedream tweaks |
+| Build and deploy a playable browser game | `higgsfield-websites` | `--type game`: game design, assets, implementation, QA, deploy, and optional publish |
 
 ## License
 
-Code is released under the **[MIT License](./LICENSE)** — use it, fork it, ship it.
-
-The **name "Apex" and the Reznikov Engineering branding are not part of this license.**
-If you build on this, please use your own product name and branding.
-
----
-
-Made by [Ruben Mouradian — Reznikov Engineering](https://reznikov-engineering.com).
-If you use it, a link back is appreciated (not required).
+MIT — see [LICENSE](./LICENSE).
